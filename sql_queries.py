@@ -78,7 +78,11 @@ INSERT INTO app_user(user_id, first_name, last_name, gender, level)
 """)
 
 song_table_insert = ("""
+<<<<<<< HEAD
 INSERT INTO songs(song_id, title, artist_id, year, duration)
+=======
+INSERT INTO song(song_id, title, artist_id, year, duration)
+>>>>>>> fdb662e1cd574b9ea020b8c79802d862c5e574a7
                         VALUES(%s, %s, %s, %s, %s)
                         ON CONFLICT (song_id) 
                         DO NOTHING
@@ -101,9 +105,9 @@ INSERT INTO time(start_time, hour, day, week, month, year, weekday)
 # FIND SONGS
 
 song_select = ("""
-SELECT songs.song_id, artists.artist_id FROM songs 
-                  JOIN artists ON  songs.artist_id=artists.artist_id
-                  WHERE songs.title=%s AND artists.name=%s AND songs.duration=%s;
+SELECT song.song_id, artists.artist_id FROM song 
+                  JOIN artists ON  song.artist_id=artists.artist_id
+                  WHERE song.title=%s AND artists.name=%s AND song.duration=%s;
 """)
 
 # QUERY LISTS
