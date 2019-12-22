@@ -25,16 +25,16 @@ def process_log_file(cur, filepath):
     df = pd.read_json(filepath, lines=True)
 
     # filter by NextSong action
-    df = df = df[df['page'] == "NextSong"].reset_index()
+    df = df[df['page'] == "NextSong"].reset_index()
 
     # convert timestamp column to datetime
-    t = pd.to_datetime(df.ts, unit='ms')
+    start_time = pd.to_datetime(df.ts, unit='ms')
 
     # insert time data records
-    df['start_time'] = t
-    df['week'] = t.apply(lambda x: datetime.date(x.year, x.month, x.day).isocalendar()[1])
-    df['week_day'] = t.apply(lambda x: datetime.date(x.year, x.month, x.day).strftime("%A"))
-    time_data = (t, t.dt.hour, t.dt.day, df.week, t.dt.month, t.dt.year, df.week_day)
+    df['start_time'] = start_time
+    df['week'] = start_time.apply(lambda x: datetime.date(x.year, x.month, x.day).isocalendar()[1])
+    df['week_day'] = start_time.apply(lambda x: datetime.date(x.year, x.month, x.day).strftime("%A"))
+    time_data = (start_time, start_time.dt.hour, start_time.dt.day, df.week, start_time.dt.month, start_time.dt.year, df.week_day)
     column_labels = ['start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday']
     time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
 
