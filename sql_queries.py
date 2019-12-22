@@ -101,9 +101,9 @@ INSERT INTO time(start_time, hour, day, week, month, year, weekday)
 # FIND SONGS
 
 song_select = ("""
-SELECT song.song_id, artists.artist_id FROM song 
-                  JOIN artists ON  song.artist_id=artists.artist_id
-                  WHERE song.title=%s AND artists.name=%s AND song.duration=%s;
+SELECT song.song_id, artist.artist_id FROM song 
+                  JOIN artist ON  song.artist_id=artist.artist_id
+                  WHERE song.title=%s AND artist.name=%s AND song.duration=%s;
 """)
 
 # QUERY LISTS
