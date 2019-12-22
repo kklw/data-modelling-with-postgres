@@ -78,11 +78,7 @@ INSERT INTO app_user(user_id, first_name, last_name, gender, level)
 """)
 
 song_table_insert = ("""
-<<<<<<< HEAD
-INSERT INTO songs(song_id, title, artist_id, year, duration)
-=======
 INSERT INTO song(song_id, title, artist_id, year, duration)
->>>>>>> fdb662e1cd574b9ea020b8c79802d862c5e574a7
                         VALUES(%s, %s, %s, %s, %s)
                         ON CONFLICT (song_id) 
                         DO NOTHING
