@@ -29,3 +29,7 @@ python3 etl.py
 | sql_queries.py   | Sql commands.                                                     |
 | create_tables.py | Creates songplay, app_user, song, artist and time tables.         |
 | etl.py           | Process the files in data folder and stores the data in database. |
+
+
+# Implementation Details
+First, we create all the database tables. Next, we will perform ETL on the first dataset, `data/song_data`, to create the `song` and `artist` dimensional tables. Also, we will perform ETL on the second dataset, `data/log_data`, to create the `time` and `app_user` dimensional tables, as well as the `songplay` fact table.
