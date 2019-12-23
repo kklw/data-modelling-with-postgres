@@ -33,3 +33,18 @@ python3 etl.py
 
 # Implementation Details
 First, we create all the database tables. Next, we will perform ETL on the first dataset, `data/song_data`, to create the `song` and `artist` dimensional tables. Also, we will perform ETL on the second dataset, `data/log_data`, to create the `time` and `app_user` dimensional tables, as well as the `songplay` fact table.
+
+## Database Design
+The denormalised star schema was choose to enable simplified queries. The fact table is songplay, and the 4 other tables are dimension tables.
+![er](er_diagram.png)
+
+## ETL Process
+- Create all tables
+- Read song and data files
+- Song data processing
+    - Extract song id, title, etc. Loads as song.
+    - Extract artist idm artist name, etc. Loads as artist.
+- Log data processing
+    - Extract start time and transform it to fields such as hour and day. Loads as time.
+    - Extract user id, first name, etc. Loads as user.
+    - Retrieve song id and artist id. Extract user id, level, etc. Loads as songplay.
