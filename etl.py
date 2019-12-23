@@ -7,7 +7,13 @@ import datetime
 
 
 def process_song_file(cur, filepath):
-    # open song file
+    """
+    Processes song data and maps it to song and artist.
+
+    Parameters:
+    - cur: cursor variable
+    - filepath: file path to the song file
+    """
     df = pd.read_json(filepath, lines=True)
 
     # insert song record
@@ -21,10 +27,14 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
-    # open log file
-    df = pd.read_json(filepath, lines=True)
+    """
+    Processes log data and maps it to user, time and songplay.
 
-    # filter by NextSong action
+    Parameters:
+    - cur: cursor variable
+    - filepath: file path to the song file
+    """
+    df = pd.read_json(filepath, lines=True)
     df = df[df['page'] == "NextSong"].reset_index()
 
     # convert timestamp column to datetime
@@ -34,7 +44,8 @@ def process_log_file(cur, filepath):
     df['start_time'] = start_time
     df['week'] = start_time.apply(lambda x: datetime.date(x.year, x.month, x.day).isocalendar()[1])
     df['week_day'] = start_time.apply(lambda x: datetime.date(x.year, x.month, x.day).strftime("%A"))
-    time_data = (start_time, start_time.dt.hour, start_time.dt.day, df.week, start_time.dt.month, start_time.dt.year, df.week_day)
+    time_data = (
+    start_time, start_time.dt.hour, start_time.dt.day, df.week, start_time.dt.month, start_time.dt.year, df.week_day)
     column_labels = ['start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday']
     time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
 
@@ -60,13 +71,22 @@ def process_log_file(cur, filepath):
         else:
             songid, artistid = None, None
 
-        # insert songplay record
         songplay_data = (
-        str(row.start_time), row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
+            str(row.start_time), row.userId, row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Retrieves files and run processing.
+
+    Parameters:
+    - cur: database cursor
+    - conn: database connection
+    - filepath: file path for files to be processed
+    - func: processing function
+    """
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -86,6 +106,9 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+    ETL pipeline to process songs and logs.
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
