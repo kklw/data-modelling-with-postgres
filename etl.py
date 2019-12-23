@@ -49,20 +49,19 @@ def process_log_file(cur, filepath):
     column_labels = ['start_time', 'hour', 'day', 'week', 'month', 'year', 'weekday']
     time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
 
-    for i, row in time_df.iterrows():
+    for _, row in time_df.iterrows():
         cur.execute(time_table_insert, list(row))
 
     # load user table
     user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']]
 
     # insert user records
-    for i, row in user_df.iterrows():
+    for _, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
     # insert songplay records
-    for index, row in df.iterrows():
-
-        # get songid and artistid from song and artist tables
+    for _, row in df.iterrows():
+        # get song id and artist id from song and artist tables
         cur.execute(song_select, (row.song, row.artist, row.length))
         results = cur.fetchone()
 
